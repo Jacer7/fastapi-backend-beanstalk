@@ -10,7 +10,7 @@ env:
   APP_NAME: everesto-${{github.ref_name}}-backend
 
 jobs:
-  setup:
+  bundle:
     runs-on: ubuntu-latest
     steps:
         - name: Checkout Repository
@@ -25,16 +25,17 @@ jobs:
 
         - name: Generate deployment package
           run: |
-            zip -rv fastapi-backend-deploy.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*"
+            zip -rv ${{env.APP_NAME}}.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*"
         
         - name: Check directory contents after zipping
           run: ls -la
 
-        - name: Upload Artifact to github
+        - name: 'Upload Artifact'
           uses: actions/upload-artifact@v3
           with:
               name: ${{ env.ARTIFACT_NAME }}
               path: ${{env.APP_NAME}}.zip
+              retention-days: 3
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v1
@@ -44,7 +45,7 @@ jobs:
             aws-region: eu-west-3
 
         - name: Upload to S3
-          run: aws s3 cp fastapi-backend-deploy.zip s3://everesto-dev-shared-artifacts/backend/fastapi-backend-deploy.zip
+          run: aws s3 cp ${{env.APP_NAME}}.zip s3://${{env.S3_BUCKET}}/backend/${{env.APP_NAME}}.zip
             
 
   # deploy:
