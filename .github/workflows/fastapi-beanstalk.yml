@@ -25,7 +25,7 @@ jobs:
 
         - name: Generate deployment package
           run: |
-            zip -rv fastapi-backend-deploy.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__
+            zip -rv fastapi-backend-deploy.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*"
         
         - name: Check directory contents after zipping
           run: ls -la
