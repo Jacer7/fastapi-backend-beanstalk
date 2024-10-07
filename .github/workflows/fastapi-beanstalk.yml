@@ -10,7 +10,7 @@ env:
   APP_NAME: everesto-${{github.ref}}-backend
 
 jobs:
-  verify:
+  before-script:
     runs-on: ubuntu-latest
     steps:
         - name: Checkout Repository
@@ -18,7 +18,7 @@ jobs:
 
         - name: Display Branch Name
           run: |
-            echo "Branch: ${{ github.ref.name }}"
+            echo "Branch: ${{ github.ref_name }}"
 
                     
 # jobs:
