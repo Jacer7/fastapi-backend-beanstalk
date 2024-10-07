@@ -29,8 +29,7 @@ jobs:
     steps:
     - name: Generate deployment package
       run: |
-        sudo apt-get install zip unzip
-        sudo zip -cvzf ${{env.APP_NAME}} . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
+        sudo zip -cvzf ${{env.APP_NAME}}.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
     - name: Upload artifact to s3
       run: |
         aws s3 cp ${{env.APP_NAME}}.zip s3://${{ env.S3_BUCKET }}/backend/${{ env.ARTIFACT_NAME }}
