@@ -18,7 +18,7 @@ jobs:
 
         - name: Display Branch Name
           run: |
-            echo "Branch: ${{ github.ref }}"
+            echo "Branch: ${{ github.ref.name }}"
 
                     
 # jobs:
