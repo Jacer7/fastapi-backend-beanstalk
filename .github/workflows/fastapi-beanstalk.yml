@@ -3,6 +3,7 @@ on:
     push:
       branches:
       - dev
+      - prod
 
 env:
   S3_BUCKET: everesto-dev-shared-artifacts
