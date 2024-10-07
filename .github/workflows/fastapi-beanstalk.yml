@@ -7,7 +7,7 @@ on:
 env:
   S3_BUCKET: everesto-dev-shared-artifacts
   ARTIFACT_NAME: fastapi-backend-deploy.zip
-  APP_NAME: everesto-${{github.ref}}-backend
+  APP_NAME: everesto-${{github.ref_name}}-backend
 
 jobs:
   setup:
@@ -28,7 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Generate deployment package
-      run: zip -rv ${{env.APP_NAME}} . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
+      run: |
+        apt-get install zip unzip
+        zip -cvzf ${{env.APP_NAME}} . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
     - name: Upload artifact to s3
       run: |
         aws s3 cp ${{env.APP_NAME}}.zip s3://${{ env.S3_BUCKET }}/backend/${{ env.ARTIFACT_NAME }}
@@ -53,3 +55,4 @@ jobs:
   #       version_label: v-${{ github.sha }}
   #       region: eu-west-3
   #       deployment_package: fastapi-backend-deploy.zip
+
