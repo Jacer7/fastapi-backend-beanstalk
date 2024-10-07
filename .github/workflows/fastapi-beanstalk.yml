@@ -19,7 +19,7 @@ jobs:
         - name: Display Branch Name
           run: |
             echo "Branch: ${{ github.ref_name }}"
-            
+
         - name: List Directory Contents
           run: ls -la
              
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Generate deployment package
-      run: zip -r fastapi-backend-deploy.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*"
+      run: zip -r fastapi-backend-deploy.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
     - name: Upload artifact to s3
       run: |
         aws s3 cp fastapi-backend-deploy.zip s3://${{ env.S3_BUCKET }}/backend/${{ env.ARTIFACT_NAME }}
