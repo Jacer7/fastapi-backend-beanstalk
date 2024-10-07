@@ -28,16 +28,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Generate deployment package
-      run: zip -r fastapi-backend-deploy.zip . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
+      run: zip -rv ${{env.APP_NAME}} . -x ".github/*" "venv/*" ".gitignore" "__pycache__/*" ".git/*" "app/__pycache__/*" 
     - name: Upload artifact to s3
       run: |
-        aws s3 cp fastapi-backend-deploy.zip s3://${{ env.S3_BUCKET }}/backend/${{ env.ARTIFACT_NAME }}
+        aws s3 cp ${{env.APP_NAME}}.zip s3://${{ env.S3_BUCKET }}/backend/${{ env.ARTIFACT_NAME }}
     
     - name: Upload Artifact to github
       uses: actions/upload-artifact@v3
       with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: fastapi-backend-deploy.zip
+          path: ${{env.APP_NAME}}.zip
 
   # deploy:
   #   needs: build
