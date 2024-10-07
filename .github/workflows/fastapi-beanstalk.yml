@@ -19,6 +19,9 @@ jobs:
         - name: Display Branch Name
           run: |
             echo "Branch: ${{ github.ref_name }}"
+            
+        - name: List Directory Contents
+          run: ls -la
              
   build:
     needs: setup
